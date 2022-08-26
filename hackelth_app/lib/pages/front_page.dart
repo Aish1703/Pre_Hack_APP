@@ -24,6 +24,8 @@ class _FrontPageState extends State<FrontPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.9),
+      resizeToAvoidBottomInset: true,
+      extendBody: false,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.only(top: 80, left: 40, right: 40),
@@ -53,7 +55,7 @@ class _FrontPageState extends State<FrontPage> {
                 width: MediaQuery.of(context).size.width * 0.6,
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                    color: GEHackTheme.shadowColor.withOpacity(0.5),
+                    color: GEHackTheme.shadowColor.withOpacity(0.8),
                     boxShadow: [
                       BoxShadow(
                           color: Colors.black.withOpacity(0.5),
@@ -63,8 +65,8 @@ class _FrontPageState extends State<FrontPage> {
                       BoxShadow(
                           color: Colors.white.withOpacity(0.4),
                           offset: const Offset(-3, -4),
-                          spreadRadius: -10,
-                          blurRadius: 40),
+                          spreadRadius: -20,
+                          blurRadius: 30),
                     ],
                     borderRadius: BorderRadius.circular(
                       MediaQuery.of(context).size.width * 0.6 / 2,

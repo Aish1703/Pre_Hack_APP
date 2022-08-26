@@ -69,24 +69,32 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        foregroundColor: GEHackTheme.redColor,
-        elevation: 0.0,
-        centerTitle: true,
-        title: Text(
-          "Chatbot",
-          style: GEHackTheme.geStyle(
-              size: 30, weight: FontWeight.w600, color: Colors.black),
+    return WillPopScope(
+      onWillPop: () async {
+        FocusManager.instance.primaryFocus?.unfocus();
+        return await true;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        resizeToAvoidBottomInset: true,
+        extendBody: false,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          foregroundColor: GEHackTheme.redColor,
+          elevation: 0.0,
+          centerTitle: true,
+          title: Text(
+            "Chatbot",
+            style: GEHackTheme.geStyle(
+                size: 30, weight: FontWeight.w600, color: Colors.black),
+          ),
         ),
-      ),
-      body: Chat(
-        theme: const DefaultChatTheme(),
-        messages: _messages,
-        onSendPressed: _handleSendPressed,
-        user: _user,
+        body: Chat(
+          theme: const DefaultChatTheme(),
+          messages: _messages,
+          onSendPressed: _handleSendPressed,
+          user: _user,
+        ),
       ),
     );
   }
