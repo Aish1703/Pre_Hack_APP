@@ -17,7 +17,7 @@ class _FrontPageState extends State<FrontPage> {
   List<MessageModel> models = [
     MessageModel(text: "I have Cough"),
     MessageModel(text: "I have Skin disease"),
-    MessageModel(text: "I'm feeling anxiety"),
+    MessageModel(text: "I'm feeling anxious"),
     MessageModel(text: "I'm so lonely"),
   ];
 
