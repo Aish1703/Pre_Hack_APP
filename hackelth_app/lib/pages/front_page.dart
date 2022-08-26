@@ -15,9 +15,10 @@ class FrontPage extends StatefulWidget {
 
 class _FrontPageState extends State<FrontPage> {
   List<MessageModel> models = [
-    MessageModel(text: "I had an Cough"),
-    MessageModel(text: "I have an Skin disease"),
-    MessageModel(text: "I'm feeling anxiety")
+    MessageModel(text: "I have Cough"),
+    MessageModel(text: "I have Skin disease"),
+    MessageModel(text: "I'm feeling anxiety"),
+    MessageModel(text: "I'm so lonely"),
   ];
 
   @override
