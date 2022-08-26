@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors_in_immutables, must_be_immutable, depend_on_referenced_packages, unused_field, prefer_final_fields, unused_element
+// ignore_for_file: prefer_const_constructors_in_immutables, must_be_immutable, depend_on_referenced_packages, unused_field, prefer_final_fields, unused_element, avoid_print
 
 import 'dart:convert';
 import 'dart:math';
@@ -6,6 +6,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:hackelth_app/model/message_model.dart';
+import 'package:hackelth_app/service/api.dart';
 import 'package:hackelth_app/utils/constants.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
@@ -26,6 +27,28 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   List<types.Message> _messages = [];
   final _user = const types.User(id: '82091008-a484-4a89-ae75-a22bf8d6f3ac');
+  final _botUser = const types.User(id: '82091008-a484-4a89-ae75-a22bf8d2f32c');
+  SolutionService service = SolutionService();
+
+  @override
+  void initState() {
+    getReply(widget.model.text);
+    super.initState();
+  }
+
+  getReply(String text) {
+    service.getMessages(text).then((value) {
+      setState(() {
+        final text = types.TextMessage(
+          author: _botUser,
+          createdAt: DateTime.now().millisecondsSinceEpoch,
+          id: randomString(),
+          text: value.text,
+        );
+        _addMessage(text);
+      });
+    });
+  }
 
   void _addMessage(types.Message message) {
     setState(() {
@@ -40,8 +63,8 @@ class _ChatPageState extends State<ChatPage> {
       id: randomString(),
       text: message.text,
     );
-
     _addMessage(textMessage);
+    getReply(message.text);
   }
 
   @override

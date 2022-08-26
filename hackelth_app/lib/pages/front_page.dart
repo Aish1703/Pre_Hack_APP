@@ -15,9 +15,9 @@ class FrontPage extends StatefulWidget {
 
 class _FrontPageState extends State<FrontPage> {
   List<MessageModel> models = [
-    MessageModel(text: "I had an accident"),
-    MessageModel(text: "I have an injury"),
-    MessageModel(text: "I'm feeling depressed")
+    MessageModel(text: "I had an Cough"),
+    MessageModel(text: "I have an Skin disease"),
+    MessageModel(text: "I'm feeling anxiety")
   ];
 
   @override
@@ -76,9 +76,9 @@ class _FrontPageState extends State<FrontPage> {
                         padding: EdgeInsets.zero,
                         backgroundColor: GEHackTheme.redColor,
                         shape: const CircleBorder()),
-                    child: const Icon(
+                    child: Icon(
                       Icons.call,
-                      size: 70,
+                      size: MediaQuery.of(context).size.width * 0.15,
                     )),
               ),
               const SizedBox(
