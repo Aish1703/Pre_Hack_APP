@@ -127,41 +127,44 @@ class _ChatPageState extends State<ChatPage> {
         return await true;
       },
       child: Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        foregroundColor: GEHackTheme.redColor,
-        elevation: 0.0,
-        centerTitle: true,
-        title: Text(
-          "Chatbot",
-          style: GEHackTheme.geStyle(
-              size: 30, weight: FontWeight.w600, color: Colors.black),
-        ),
-      ),
-      body: Chat(
-        theme: const DefaultChatTheme(
-          attachmentButtonIcon: Icon(
-            Icons.add_a_photo,
-            color: Colors.white,
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          foregroundColor: GEHackTheme.redColor,
+          elevation: 0.0,
+          centerTitle: true,
+          title: Text(
+            "Chatbot",
+            style: GEHackTheme.geStyle(
+                size: 30, weight: FontWeight.w600, color: Colors.black),
           ),
         ),
-        messages: _messages,
-        onSendPressed: _handleSendPressed,
-        user: _user,
-        onAttachmentPressed: _handleImageSelection,
-        showUserAvatars: true,
-        avatarBuilder: (userId) {
-          return Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: SizedBox(
-              height: 40,
-              child: Image.network(
-                  "https://texapi.net/wp-content/uploads/2022/05/icon.png"),
+        body: Chat(
+          theme: DefaultChatTheme(
+            inputMargin: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
+            inputBorderRadius: BorderRadius.circular(20),
+            attachmentButtonIcon: const Icon(
+              Icons.add_a_photo,
+              color: Colors.white,
             ),
-          );
-        },
-      ),),
+          ),
+          messages: _messages,
+          onSendPressed: _handleSendPressed,
+          user: _user,
+          onAttachmentPressed: _handleImageSelection,
+          showUserAvatars: true,
+          avatarBuilder: (userId) {
+            return Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: SizedBox(
+                height: 40,
+                child: Image.network(
+                    "https://texapi.net/wp-content/uploads/2022/05/icon.png"),
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }
