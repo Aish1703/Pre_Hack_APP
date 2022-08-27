@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:hackelth_app/model/message_model.dart';
 import 'package:hackelth_app/pages/chat_page.dart';
 import 'package:hackelth_app/utils/constants.dart';
 import 'package:hackelth_app/widgets/message_blob.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FrontPage extends StatefulWidget {
   FrontPage({Key? key}) : super(key: key);
@@ -15,15 +17,18 @@ class FrontPage extends StatefulWidget {
 
 class _FrontPageState extends State<FrontPage> {
   List<MessageModel> models = [
-    MessageModel(text: "I had an Cough"),
-    MessageModel(text: "I have an Skin disease"),
-    MessageModel(text: "I'm feeling anxiety")
+    MessageModel(text: "I have Cough"),
+    MessageModel(text: "I have Skin disease"),
+    MessageModel(text: "I'm feeling anxious"),
+    MessageModel(text: "I'm so lonely"),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.9),
+      resizeToAvoidBottomInset: true,
+      extendBody: false,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.only(top: 80, left: 40, right: 40),
@@ -53,7 +58,7 @@ class _FrontPageState extends State<FrontPage> {
                 width: MediaQuery.of(context).size.width * 0.6,
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                    color: GEHackTheme.shadowColor.withOpacity(0.5),
+                    color: GEHackTheme.shadowColor.withOpacity(0.8),
                     boxShadow: [
                       BoxShadow(
                           color: Colors.black.withOpacity(0.5),
@@ -63,14 +68,17 @@ class _FrontPageState extends State<FrontPage> {
                       BoxShadow(
                           color: Colors.white.withOpacity(0.4),
                           offset: const Offset(-3, -4),
-                          spreadRadius: -10,
-                          blurRadius: 40),
+                          spreadRadius: -20,
+                          blurRadius: 30),
                     ],
                     borderRadius: BorderRadius.circular(
                       MediaQuery.of(context).size.width * 0.6 / 2,
                     )),
                 child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      const number = '7262818443'; //set the number here
+                      await FlutterPhoneDirectCaller.callNumber(number);
+                    },
                     style: ElevatedButton.styleFrom(
                         elevation: 40,
                         padding: EdgeInsets.zero,
