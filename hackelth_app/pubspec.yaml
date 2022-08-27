@@ -40,8 +40,8 @@ dependencies:
   flutter_chat_ui: ^1.6.4
   http: ^0.13.5
   dio: ^4.0.0
-  flutter_polyline_points: ^0.2.6
-  google_maps_flutter: ^2.0.2
+  google_maps_flutter: ^2.1.1
+  geolocator: ^8.0.1
 
 
 dev_dependencies:

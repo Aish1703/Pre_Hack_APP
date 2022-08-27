@@ -1,54 +1,84 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class MapPage extends StatefulWidget {
-  const MapPage({super.key});
+class CurrentLocationScreen extends StatefulWidget {
+  const CurrentLocationScreen({Key? key}) : super(key: key);
 
   @override
-  State<MapPage> createState() => _MapPageState();
+  _CurrentLocationScreenState createState() => _CurrentLocationScreenState();
 }
 
-class _MapPageState extends State<MapPage> {
-  static const _initialCameraPosition = CameraPosition(
-    target: LatLng(19.0222, 72.8561),
-    zoom: 11.5,
-  );
+class _CurrentLocationScreenState extends State<CurrentLocationScreen> {
+  late GoogleMapController googleMapController;
 
-  late GoogleMapController _googleMapController;
-  late Marker _origin;
-  late Marker _destination;
+  static const CameraPosition initialCameraPosition = CameraPosition(target: LatLng(19.0222,72.8561), zoom: 14);
 
-  @override
-  void dispose() {
-    _googleMapController.dispose();
-    super.dispose();
-  }
+  Set<Marker> markers = {};
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          GoogleMap(
-            mapToolbarEnabled: false,
-            initialCameraPosition: _initialCameraPosition,
-            onMapCreated: (controller) => _googleMapController = controller,
-            zoomControlsEnabled: false,
-            zoomGesturesEnabled: false,
-      
-        
-          ),
-        ],
+      appBar: AppBar(
+        title: const Text("GE Healthcare Centers"),
+        centerTitle: true,
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColor,
-        foregroundColor: Colors.black,
-        onPressed: () => _googleMapController.animateCamera(
-          CameraUpdate.newCameraPosition(_initialCameraPosition),
-        ),
-        child: const Icon(Icons.center_focus_strong),
+      body: GoogleMap(
+        initialCameraPosition: initialCameraPosition,
+        markers: markers,
+        zoomControlsEnabled: false,
+        mapType: MapType.normal,
+        onMapCreated: (GoogleMapController controller) {
+          googleMapController = controller;
+        },
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () async {
+          Position position = await _determinePosition();
+
+          googleMapController
+              .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(position.latitude, position.longitude), zoom: 14)));
+
+
+          markers.clear();
+
+          markers.add(Marker(markerId: const MarkerId('currentLocation'),position: LatLng(position.latitude, position.longitude)));
+
+          setState(() {});
+
+        },
+        label: const Text("Current Location"),
+        icon: const Icon(Icons.location_history),
       ),
     );
   }
 
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled');
+    }
+
+    permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+
+      if (permission == LocationPermission.denied) {
+        return Future.error("Location permission denied!");
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error('Location permissions are permanently denied');
+    }
+
+    Position position = await Geolocator.getCurrentPosition();
+
+    return position;
+  }
 }
