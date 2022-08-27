@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hackelth_app/model/message_model.dart';
+import 'package:hackelth_app/pages/map_page.dart';
 import 'package:hackelth_app/service/api.dart';
 import 'package:hackelth_app/service/storage_service.dart';
 import 'package:hackelth_app/utils/constants.dart';
@@ -69,6 +70,14 @@ class _ChatPageState extends State<ChatPage> {
         _addMessage(text);
       });
     });
+
+    if (text ==
+        "You can contact various doctors here for any kind of consultation: 1. https://www.1mg.com/online-doctor-consultation, 2. https://www.tatahealth.com/online-doctor-consultation/general-physician, 3. https://www.doconline.com/, or you can pay a visit to your local area doctor or family doctor.") {
+      Future.delayed(Duration(seconds: 2));
+      Navigator.push(context, MaterialPageRoute(builder: (_) {
+        return CurrentLocationScreen();
+      }));
+    }
   }
 
   getPrediction(String url) {

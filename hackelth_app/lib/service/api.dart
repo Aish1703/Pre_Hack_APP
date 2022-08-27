@@ -29,14 +29,14 @@ class SolutionService {
   ApiService service = ApiService();
 
   Future<MessageModel> getMessages(String text) async {
-    String endpoint = "https://astra07.herokuapp.com/get-solution?query=$text";
+    String endpoint = "https://astra08.herokuapp.com/get-solution?query=$text";
     var response = await service.getData(endpoint);
     return MessageModel.fromJson(response);
   }
 
   Future<SkinDiseaseModel> getSkinDisease(String url) async {
     String endpoint =
-        "https://astra07.herokuapp.com/get-skin-disease?query=$url";
+        "https://astra08.herokuapp.com/get-skin-disease?query=$url";
     var response = await service.getData(endpoint);
     return SkinDiseaseModel.fromJson(response);
   }
