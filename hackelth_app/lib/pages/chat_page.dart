@@ -172,7 +172,7 @@ class _ChatPageState extends State<ChatPage> {
                 padding: const EdgeInsets.all(15),
                 color: GEHackTheme.shadowColor,
                 width: 60,
-                child: const SpinKitThreeBounce(color: Colors.white,size: 8,)
+                child:  SpinKitThreeBounce(color: Colors.white,size: 8,)
               );
             }
 

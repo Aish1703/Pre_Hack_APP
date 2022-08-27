@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hackelth_app/pages/home_page.dart';
-import 'package:hackelth_app/pages/voice.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
+import 'package:hackelth_app/model/message_model.dart';
+import 'package:hackelth_app/pages/chat_page.dart';
 import 'package:hackelth_app/pages/front_page.dart';
 import 'package:hackelth_app/pages/heart_rate_page.dart';
 import 'package:hackelth_app/utils/constants.dart';
@@ -15,7 +17,11 @@ class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
   int index = 0;
 
-  List<Widget> pages = [FrontPage(), HeartRatePage(), Scaffold()];
+  List<Widget> pages = [
+    FrontPage(),
+    HeartRatePage(),
+    ChatPage(model: MessageModel(text: "Hello what's your name?"))
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +30,7 @@ class _HomePageState extends State<HomePage> {
       extendBody: true,
       backgroundColor: Colors.white.withOpacity(0.95),
       bottomNavigationBar: BottomNavigationBar(
+        selectedLabelStyle: GEHackTheme.geStyle(size: 12, weight: FontWeight.bold, color: GEHackTheme.redColor),
         elevation: 3.0,
         unselectedItemColor: GEHackTheme.shadowColor,
         selectedItemColor: GEHackTheme.redColor,
@@ -38,19 +45,19 @@ class _HomePageState extends State<HomePage> {
                 Icons.home,
                 size: 30,
               ),
-              label: ""),
+              label: "Home"),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.monitor_heart,
                 size: 30,
               ),
-              label: ""),
+              label: "BPM"),
           BottomNavigationBarItem(
               icon: Icon(
-                Icons.person,
+                Icons.support_agent,
                 size: 30,
               ),
-              label: ""),
+              label: "Chat Bot"),
         ],
       ),
       body: pages[index],
