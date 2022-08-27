@@ -40,11 +40,11 @@ class _ChatPageState extends State<ChatPage> {
   getReply(String text) {
     service.getMessages(text).then((value) {
       setState(() {
-        final text = types.TextMessage(
+        final text = types.CustomMessage(
           author: _botUser,
           createdAt: DateTime.now().millisecondsSinceEpoch,
           id: randomString(),
-          text: value.text,
+          metadata: {'message': value.text},
         );
         _addMessage(text);
       });
@@ -58,14 +58,14 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _handleSendPressed(types.PartialText message) {
-    final textMessage = types.TextMessage(
+    final textMessage = types.CustomMessage(
       author: _user,
       createdAt: DateTime.now().millisecondsSinceEpoch,
       id: randomString(),
-      text: message.text,
+      metadata: {'message': message.text},
     );
     _addMessage(textMessage);
-    getReply(message.text);
+    getReply(message.metadata?['message']);
   }
 
   void _handleImageSelection() async {
@@ -152,6 +152,13 @@ class _ChatPageState extends State<ChatPage> {
           onSendPressed: _handleSendPressed,
           user: _user,
           onAttachmentPressed: _handleImageSelection,
+          customMessageBuilder: (p0, {required messageWidth}) {
+            return Container(
+              padding: const EdgeInsets.all(15),
+              color: GEHackTheme.redColor,
+              child: Text(p0.metadata?['message'],style: GEHackTheme.geStyle(size: 14, weight: FontWeight.w600, color: Colors.white),),
+            );
+          },
           showUserAvatars: true,
           avatarBuilder: (userId) {
             return Padding(
