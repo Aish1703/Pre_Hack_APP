@@ -91,7 +91,7 @@ class _ChatPageState extends State<ChatPage> {
           id: randomString(),
           metadata: {
             "message":
-                "You have symptoms of ${value.disease}.\nNote: Users should not completely rely on information provided. Please contant your physician or other healthcare provider.",
+                "You have symptoms of ${value.disease}.\nNote: Users should not completely rely on information provided. Please contact your physician or other healthcare provider.",
             "isBot": true
           },
         );
