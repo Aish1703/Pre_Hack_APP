@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "984034146973",
+    "project_id": "healthbot-d866a",
+    "storage_bucket": "healthbot-d866a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:984034146973:android:3cc9d388813e489f33b274",
+        "android_client_info": {
+          "package_name": "com.example.hackelth_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "984034146973-jsp1rmf1vv58jafha667prapcqjod001.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtaAdWlBrqZ-sWaCZHU3Hii4eD-CIAP8w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "984034146973-jsp1rmf1vv58jafha667prapcqjod001.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
