@@ -56,11 +56,12 @@ class _ChatPageState extends State<ChatPage> {
       _addMessage(text1);
     });
 
+    String text12 = "";
     service.getMessages(text).then((value) {
       _state = value.query == '1';
       setState(() {
         _messages.remove(text1);
-
+        text12 = value.text;
         final text = types.CustomMessage(
           author: _botUser,
           createdAt: DateTime.now().millisecondsSinceEpoch,
@@ -68,16 +69,15 @@ class _ChatPageState extends State<ChatPage> {
           metadata: {'message': value.text, 'isBot': true},
         );
         _addMessage(text);
+        if (text12 ==
+            "You can contact various doctors here for any kind of consultation: 1. https://www.1mg.com/online-doctor-consultation, 2. https://www.tatahealth.com/online-doctor-consultation/general-physician, 3. https://www.doconline.com/, or you can pay a visit to your local area doctor or family doctor.") {
+          Future.delayed(Duration(seconds: 10));
+          Navigator.push(context, MaterialPageRoute(builder: (_) {
+            return CurrentLocationScreen();
+          }));
+        }
       });
     });
-
-    if (text ==
-        "You can contact various doctors here for any kind of consultation: 1. https://www.1mg.com/online-doctor-consultation, 2. https://www.tatahealth.com/online-doctor-consultation/general-physician, 3. https://www.doconline.com/, or you can pay a visit to your local area doctor or family doctor.") {
-      Future.delayed(Duration(seconds: 2));
-      Navigator.push(context, MaterialPageRoute(builder: (_) {
-        return CurrentLocationScreen();
-      }));
-    }
   }
 
   getPrediction(String url) {
