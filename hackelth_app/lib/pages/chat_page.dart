@@ -64,7 +64,7 @@ class _ChatPageState extends State<ChatPage> {
           author: _botUser,
           createdAt: DateTime.now().millisecondsSinceEpoch,
           id: randomString(),
-          metadata: {'message': value.text,'isBot':true},
+          metadata: {'message': value.text, 'isBot': true},
         );
         _addMessage(text);
       });
@@ -72,14 +72,28 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   getPrediction(String url) {
+    final text1 = types.CustomMessage(
+      author: _botUser,
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+      id: randomString(),
+      metadata: const {'message': "..."},
+    );
+
+    setState(() {
+      _addMessage(text1);
+    });
     service.getSkinDisease(url).then((value) {
       setState(() {
-        final text = types.TextMessage(
+        _messages.remove(text1);
+        final text = types.CustomMessage(
           author: _botUser,
           createdAt: DateTime.now().millisecondsSinceEpoch,
           id: randomString(),
-          text:
-              "You have symptoms of ${value.disease}.\nNote: Users should not completely rely on information provided. Please contant your physician or other healthcare provider.",
+          metadata: {
+            "message":
+                "You have symptoms of ${value.disease}.\nNote: Users should not completely rely on information provided. Please contant your physician or other healthcare provider.",
+            "isBot": true
+          },
         );
         _addMessage(text);
       });
@@ -97,7 +111,7 @@ class _ChatPageState extends State<ChatPage> {
       author: _user,
       createdAt: DateTime.now().millisecondsSinceEpoch,
       id: randomString(),
-      metadata: {'message': message.text,'isBot':false},
+      metadata: {'message': message.text, 'isBot': false},
     );
     _addMessage(textMessage);
     var list = ['yes', 'yeah', 'sure', 'ok', 'alright', 'ha', 'fine'];
@@ -213,16 +227,20 @@ class _ChatPageState extends State<ChatPage> {
           customMessageBuilder: (p0, {required messageWidth}) {
             if (p0.metadata?['message'] == "...") {
               return Container(
-                padding: const EdgeInsets.all(15),
-                color: GEHackTheme.shadowColor,
-                width: 60,
-                child: const SpinKitThreeBounce(color: Colors.white,size: 8,)
-              );
+                  padding: const EdgeInsets.all(15),
+                  color: GEHackTheme.shadowColor,
+                  width: 60,
+                  child: const SpinKitThreeBounce(
+                    color: Colors.white,
+                    size: 8,
+                  ));
             }
 
             return Container(
               padding: const EdgeInsets.all(15),
-              color: p0.metadata?['isBot'] ? GEHackTheme.shadowColor : GEHackTheme.redColor,
+              color: p0.metadata?['isBot']
+                  ? GEHackTheme.shadowColor
+                  : GEHackTheme.redColor,
               child: Text(
                 p0.metadata?['message'],
                 style: GEHackTheme.geStyle(
