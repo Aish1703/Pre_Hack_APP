@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors_in_immutables, must_be_immutable, depend_on_referenced_packages, unused_field, prefer_final_fields, unused_element, avoid_print
+// ignore_for_file: prefer_const_constructors_in_immutables, must_be_immutable, depend_on_referenced_packages, unused_field, prefer_final_fields, unused_element, avoid_print, list_remove_unrelated_type
 
 import 'dart:convert';
 import 'dart:io';
@@ -7,6 +7,7 @@ import 'dart:math';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hackelth_app/model/message_model.dart';
 import 'package:hackelth_app/service/api.dart';
 import 'package:hackelth_app/service/storage_service.dart';
@@ -43,14 +44,27 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   getReply(String text) {
+    final text1 = types.CustomMessage(
+      author: _botUser,
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+      id: randomString(),
+      metadata: const {'message': "..."},
+    );
+
+    setState(() {
+      _addMessage(text1);
+    });
+
     service.getMessages(text).then((value) {
       _state = value.query == '1';
       setState(() {
-        final text = types.TextMessage(
+        _messages.remove(text1);
+
+        final text = types.CustomMessage(
           author: _botUser,
           createdAt: DateTime.now().millisecondsSinceEpoch,
           id: randomString(),
-          text: value.text,
+          metadata: {'message': value.text,'isBot':true},
         );
         _addMessage(text);
       });
@@ -79,11 +93,11 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _handleSendPressed(types.PartialText message) async {
-    final textMessage = types.TextMessage(
+    final textMessage = types.CustomMessage(
       author: _user,
       createdAt: DateTime.now().millisecondsSinceEpoch,
       id: randomString(),
-      text: message.text,
+      metadata: {'message': message.text,'isBot':false},
     );
     _addMessage(textMessage);
     var list = ['yes', 'yeah', 'sure', 'ok', 'alright', 'ha', 'fine'];
@@ -184,8 +198,10 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ),
         body: Chat(
-          theme: const DefaultChatTheme(
-            attachmentButtonIcon: Icon(
+          theme: DefaultChatTheme(
+            inputMargin: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
+            inputBorderRadius: BorderRadius.circular(20),
+            attachmentButtonIcon: const Icon(
               Icons.add_a_photo,
               color: Colors.white,
             ),
@@ -194,6 +210,26 @@ class _ChatPageState extends State<ChatPage> {
           onSendPressed: _handleSendPressed,
           user: _user,
           onAttachmentPressed: _handleImageSelection,
+          customMessageBuilder: (p0, {required messageWidth}) {
+            if (p0.metadata?['message'] == "...") {
+              return Container(
+                padding: const EdgeInsets.all(15),
+                color: GEHackTheme.shadowColor,
+                width: 60,
+                child: const SpinKitThreeBounce(color: Colors.white,size: 8,)
+              );
+            }
+
+            return Container(
+              padding: const EdgeInsets.all(15),
+              color: p0.metadata?['isBot'] ? GEHackTheme.shadowColor : GEHackTheme.redColor,
+              child: Text(
+                p0.metadata?['message'],
+                style: GEHackTheme.geStyle(
+                    size: 14, weight: FontWeight.w600, color: Colors.white),
+              ),
+            );
+          },
           showUserAvatars: true,
           avatarBuilder: (userId) {
             return Padding(
