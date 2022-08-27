@@ -1,10 +1,11 @@
-// ignore_for_file: prefer_const_constructors_in_immutables, must_be_immutable, depend_on_referenced_packages, unused_field, prefer_final_fields, unused_element, avoid_print
+// ignore_for_file: prefer_const_constructors_in_immutables, must_be_immutable, depend_on_referenced_packages, unused_field, prefer_final_fields, unused_element, avoid_print, list_remove_unrelated_type
 
 import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hackelth_app/model/message_model.dart';
 import 'package:hackelth_app/service/api.dart';
 import 'package:hackelth_app/utils/constants.dart';
@@ -38,13 +39,26 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   getReply(String text) {
+    final text1 = types.CustomMessage(
+      author: _botUser,
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+      id: randomString(),
+      metadata: const {'message': "..."},
+    );
+
+    setState(() {
+      _addMessage(text1);
+    });
+
     service.getMessages(text).then((value) {
       setState(() {
+        _messages.remove(text1);
+
         final text = types.CustomMessage(
           author: _botUser,
           createdAt: DateTime.now().millisecondsSinceEpoch,
           id: randomString(),
-          metadata: {'message': value.text},
+          metadata: {'message': value.text,'isBot':true},
         );
         _addMessage(text);
       });
@@ -62,7 +76,7 @@ class _ChatPageState extends State<ChatPage> {
       author: _user,
       createdAt: DateTime.now().millisecondsSinceEpoch,
       id: randomString(),
-      metadata: {'message': message.text},
+      metadata: {'message': message.text,'isBot':false},
     );
     _addMessage(textMessage);
     getReply(message.metadata?['message']);
@@ -153,10 +167,23 @@ class _ChatPageState extends State<ChatPage> {
           user: _user,
           onAttachmentPressed: _handleImageSelection,
           customMessageBuilder: (p0, {required messageWidth}) {
+            if (p0.metadata?['message'] == "...") {
+              return Container(
+                padding: const EdgeInsets.all(15),
+                color: GEHackTheme.shadowColor,
+                width: 60,
+                child: const SpinKitThreeBounce(color: Colors.white,size: 8,)
+              );
+            }
+
             return Container(
               padding: const EdgeInsets.all(15),
-              color: GEHackTheme.redColor,
-              child: Text(p0.metadata?['message'],style: GEHackTheme.geStyle(size: 14, weight: FontWeight.w600, color: Colors.white),),
+              color: p0.metadata?['isBot'] ? GEHackTheme.shadowColor : GEHackTheme.redColor,
+              child: Text(
+                p0.metadata?['message'],
+                style: GEHackTheme.geStyle(
+                    size: 14, weight: FontWeight.w600, color: Colors.white),
+              ),
             );
           },
           showUserAvatars: true,

@@ -44,6 +44,7 @@ dependencies:
   wakelock: ^0.6.2
   image_picker: ^0.8.5+3
   speech_to_text: ^5.6.1
+  flutter_spinkit: ^5.1.0
 
 dev_dependencies:
   flutter_test:
