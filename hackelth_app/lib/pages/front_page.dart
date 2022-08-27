@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:hackelth_app/model/message_model.dart';
 import 'package:hackelth_app/pages/chat_page.dart';
 import 'package:hackelth_app/utils/constants.dart';
 import 'package:hackelth_app/widgets/message_blob.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FrontPage extends StatefulWidget {
   FrontPage({Key? key}) : super(key: key);
@@ -73,7 +75,10 @@ class _FrontPageState extends State<FrontPage> {
                       MediaQuery.of(context).size.width * 0.6 / 2,
                     )),
                 child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      const number = '7262818443'; //set the number here
+                      await FlutterPhoneDirectCaller.callNumber(number);
+                    },
                     style: ElevatedButton.styleFrom(
                         elevation: 40,
                         padding: EdgeInsets.zero,
